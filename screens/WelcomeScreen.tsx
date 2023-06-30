@@ -24,10 +24,11 @@ const WelcomeScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
       <View>
         <ImageBackground
           style={{
-            height: height / 2.5,
+            height: height / 1.88,
+            alignItems: "center",
           }}
           resizeMode="contain"
-          source={require("../assets/images/welcome-img.png")}
+          source={require("../assets/images/Farmer.jpg")}
         />
         <View
           style={{
