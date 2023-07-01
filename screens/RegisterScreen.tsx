@@ -141,7 +141,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
           <Text
             style={{
               fontSize: FontSize.xLarge,
-              color: Colors.primary,
+              color: Colors.Primary,
               fontFamily: Font["poppins-bold"],
               marginVertical: Spacing * 3,
             }}
