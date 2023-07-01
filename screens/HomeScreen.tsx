@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 const { height } = Dimensions.get("window");
 const API_URL = "https://farmappbackend.onrender.com";
+import Weather from "./Weather";
 
 export default function HomeScreen() {
 
@@ -45,8 +46,9 @@ export default function HomeScreen() {
         shadowOpacity: 0.2,
         shadowRadius: 3,
         marginBottom: height / 4,
-      }}
+      }} className="my-auto"
     >
+      <Weather/>
       <Text
         style={{
           fontSize: FontSize.xxLarge,
@@ -59,12 +61,14 @@ export default function HomeScreen() {
         }}
       >
         Hello Welcome userName
-        <Button
+        
+      </Text>
+      <Button
           title="Logout"
           // onPress={async () => await AsyncStorage.removeItem("@user")}
           onPress={handleLogout}
         />
-      </Text>
+      
     </View>
   );
 }
