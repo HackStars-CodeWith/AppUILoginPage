@@ -25,7 +25,7 @@ import axios from "axios";
 import { Alert } from "react-native";
 
 WebBrowser.maybeCompleteAuthSession();
-const API_URL = "http://192.168.146.201:5000";
+const API_URL = "https://farmappbackend.onrender.com";
 type Props = NativeStackScreenProps<RootStackParamList, "Register">;
 
 const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
@@ -50,7 +50,6 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
     if (Password === "" || ConfirmPassword === "" || Email === "") {
       return;
     }
-    Alert.alert("CLicked!!");
     if (Password !== ConfirmPassword) {
       setPasswordError("Passwords do not match");
       return;
