@@ -23,7 +23,7 @@ import { Alert } from "react-native";
 
 WebBrowser.maybeCompleteAuthSession();
 // genral format "http://ipaddress of expo like 192..."+:backend port
-const API_URL = "http://192.168.146.201:5000";
+const API_URL = "http://192.168.43.163:5000";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Register">;
 
