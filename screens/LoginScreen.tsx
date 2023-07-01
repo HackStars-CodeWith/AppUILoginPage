@@ -20,11 +20,15 @@ import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { useContext } from "react";
+import LangContext from "../components/LangContext";
+import { getTranslation,translation } from "../constants/translations/utils"
 WebBrowser.maybeCompleteAuthSession();
 
 type Props = NativeStackScreenProps<RootStackParamList, "Login">;
-const API_URL = "http://192.168.146.201:5000";
+const API_URL = "http://192.168.1.87:19000";
 const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
+  const { selectedLang, setSelectedLang } = useContext(LangContext);
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [userInfo, setUserInfo] = React.useState(null);
@@ -121,7 +125,7 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               marginVertical: Spacing * 3,
             }}
           >
-            Login here
+            {getTranslation('login_title',selectedLang)}
           </Text>
           <Text
             style={{
@@ -131,7 +135,7 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               textAlign: "center",
             }}
           >
-            Welcome back you've been missed!
+            {getTranslation('login_descript',selectedLang)}
           </Text>
         </View>
         <View
@@ -161,7 +165,7 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               alignSelf: "flex-end",
             }}
           >
-            Forgot your password ?
+            {getTranslation('forgot_pwd',selectedLang)}
           </Text>
         </View>
 
@@ -189,7 +193,7 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               fontSize: FontSize.large,
             }}
           >
-            Sign in
+            {getTranslation('login',selectedLang)}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -206,7 +210,7 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               fontSize: FontSize.small,
             }}
           >
-            Create new account
+            {getTranslation('createnew_acc',selectedLang)}
           </Text>
         </TouchableOpacity>
 
@@ -223,7 +227,7 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               fontSize: FontSize.small,
             }}
           >
-            Or continue with
+            {getTranslation('login_opt',selectedLang)}
           </Text>
 
           <View

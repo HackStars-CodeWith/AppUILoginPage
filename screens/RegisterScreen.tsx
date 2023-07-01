@@ -16,16 +16,20 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
 import AppTextInput from "../components/AppTextInput";
 import * as WebBrowser from "expo-web-browser";
+import { useContext } from "react";
+import LangContext from "../components/LangContext";
+import { getTranslation,translation } from "../constants/translations/utils";
 import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { Alert } from "react-native";
 
 WebBrowser.maybeCompleteAuthSession();
-const API_URL = "http://192.168.146.201:5000";
+const API_URL = "http://192.168.1.87:19000";
 type Props = NativeStackScreenProps<RootStackParamList, "Register">;
 
 const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
+  const { selectedLang, setSelectedLang } = useContext(LangContext);
   const [userInfo, setUserInfo] = React.useState(null);
   const [token, setToken] = useState("");
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -140,20 +144,10 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               fontSize: FontSize.xLarge,
               color: Colors.primary,
               fontFamily: Font["poppins-bold"],
-              marginVertical: Spacing * 3,
+              marginVertical: Spacing * 4,
             }}
           >
-            Create account
-          </Text>
-          <Text
-            style={{
-              fontFamily: Font["poppins-regular"],
-              fontSize: FontSize.small,
-              maxWidth: "80%",
-              textAlign: "center",
-            }}
-          >
-            Create an account so you can explore all the existing jobs
+            {getTranslation('create_acc',selectedLang)}
           </Text>
         </View>
         <View
@@ -214,7 +208,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               fontSize: FontSize.large,
             }}
           >
-            Sign up
+            {getTranslation('register',selectedLang)}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -231,7 +225,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               fontSize: FontSize.small,
             }}
           >
-            Already have an account
+            {getTranslation('acc_already',selectedLang)}
           </Text>
         </TouchableOpacity>
 
@@ -248,7 +242,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               fontSize: FontSize.small,
             }}
           >
-            Or continue with
+            {getTranslation('login_opt',selectedLang)}
           </Text>
 
           <View
