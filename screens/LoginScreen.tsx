@@ -56,6 +56,7 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
       }
     } else {
       setUserInfo(user);
+      navigate("Home");
       console.log("loaded locally");
     }
   }
@@ -79,7 +80,7 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
       const user = await response.json();
       await AsyncStorage.setItem("@user", JSON.stringify(user));
       setUserInfo(user);
-      navigate("Welcome");
+      navigate("Home");
     } catch (error) {
       console.log("Error found");
     }
