@@ -19,9 +19,10 @@ import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { Alert } from "react-native";
 
 WebBrowser.maybeCompleteAuthSession();
-const API_URL = "http://192.168.43.163:4000";
+const API_URL = "http://192.168.146.201:5000";
 type Props = NativeStackScreenProps<RootStackParamList, "Register">;
 
 const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
@@ -45,6 +46,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
     if (Password === "" || ConfirmPassword === "" || Email === "") {
       return;
     }
+    Alert.alert("CLicked!!");
     if (Password !== ConfirmPassword) {
       setPasswordError("Passwords do not match");
       return;
@@ -57,9 +59,26 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
     try {
       const response = await axios.post(`${API_URL}/signup`, credentials);
       const { data } = response;
+      setTimeout(() => {
+        Alert.alert("Register Success🚀🚀");
+      }, 500);
       navigate("Login");
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log("Error", error.message);
+      }
+      console.log(error.config);
     }
   };
 
@@ -142,12 +161,37 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
             marginVertical: Spacing * 3,
           }}
         >
-          <AppTextInput placeholder="Email" />
-          <AppTextInput placeholder="Password" />
-          <AppTextInput placeholder="Confirm Password" />
+          <AppTextInput
+            placeholder="Email"
+            defaultValue={Email}
+            onChangeText={(newText) => setEmail(newText)}
+          />
+          <AppTextInput
+            placeholder="Password"
+            defaultValue={Password}
+            onChangeText={(newPassword) => setPassword(newPassword)}
+            secureTextEntry
+          />
+          <AppTextInput
+            placeholder="Confirm Password"
+            defaultValue={ConfirmPassword}
+            onChangeText={(newPassword) => {
+              setConfirmPassword(newPassword);
+              setPasswordError(""); // Clear password error when the Confirm Password changes
+            }}
+            secureTextEntry
+            style={{
+              ...(passwordError ? styles.inputError : null),
+              ...styles.appTextInput,
+            }}
+          />
+          {passwordError ? (
+            <Text style={styles.errorText}>{passwordError}</Text>
+          ) : null}
         </View>
 
         <TouchableOpacity
+          onPress={HandleRegister}
           style={{
             padding: Spacing * 2,
             backgroundColor: Colors.Primary,
@@ -265,5 +309,26 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
     </SafeAreaView>
   );
 };
+const styles = StyleSheet.create({
+  inputError: {
+    borderColor: "red",
+    borderWidth: 1,
+  },
+  errorText: {
+    color: "red",
+    marginTop: 5,
+  },
+  appTextInput: {
+    // Add your custom styles for the AppTextInput component here
+    // For example:
+    fontFamily: Font["poppins-regular"],
+    fontSize: FontSize.small,
+    padding: Spacing * 2,
+    backgroundColor: Colors.lightPrimary,
+    borderRadius: Spacing,
+    marginVertical: Spacing,
+    // Add more styles as needed
+  },
+});
 
 export default RegisterScreen;

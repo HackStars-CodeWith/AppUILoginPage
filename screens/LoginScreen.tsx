@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Spacing from "../constants/Spacing";
@@ -18,18 +19,23 @@ import AppTextInput from "../components/AppTextInput";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import axios from "axios";
 WebBrowser.maybeCompleteAuthSession();
 
 type Props = NativeStackScreenProps<RootStackParamList, "Login">;
-
+const API_URL = "http://192.168.146.201:5000";
 const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
-  const [userInfo, setUserInfo] = React.useState(null); 
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+  const [userInfo, setUserInfo] = React.useState(null);
   const [token, setToken] = useState("");
   const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId:"266923605492-uet71us6ugp7vpf3ejc80jmf6af07rom.apps.googleusercontent.com",
-    webClientId:"266923605492-r5ddnpke4h9msb59jh9oh5adikv4m61s.apps.googleusercontent.com",
-    expoClientId:"266923605492-afdsv528mjbp5g9sf1s52viao09dqq7f.apps.googleusercontent.com",
+    androidClientId:
+      "266923605492-uet71us6ugp7vpf3ejc80jmf6af07rom.apps.googleusercontent.com",
+    webClientId:
+      "266923605492-r5ddnpke4h9msb59jh9oh5adikv4m61s.apps.googleusercontent.com",
+    expoClientId:
+      "266923605492-afdsv528mjbp5g9sf1s52viao09dqq7f.apps.googleusercontent.com",
   });
 
   useEffect(() => {
@@ -47,7 +53,6 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
     } else {
       setUserInfo(user);
       console.log("loaded locally");
-     
     }
   }
 
@@ -72,7 +77,28 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
       setUserInfo(user);
       navigate("Welcome");
     } catch (error) {
-      console.log("Error found")
+      console.log("Error found");
+    }
+  };
+
+  const handleLoginDirect = async () => {
+    if (Password === "" || Email === "") {
+      return;
+    }
+
+    const credintals = {
+      email: Email,
+      password: Password,
+    };
+    try {
+      const response = await axios.post(`${API_URL}/login`, credintals);
+      const { data } = response;
+      setTimeout(() => {
+        Alert.alert("Success🚀🚀");
+      }, 500);
+      navigate("Home");
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -90,7 +116,7 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
           <Text
             style={{
               fontSize: FontSize.xLarge,
-              color: Colors.primary,
+              color: Colors.Primary,
               fontFamily: Font["poppins-bold"],
               marginVertical: Spacing * 3,
             }}
@@ -113,8 +139,17 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
             marginVertical: Spacing * 3,
           }}
         >
-          <AppTextInput placeholder="Email" />
-          <AppTextInput placeholder="Password" />
+          <AppTextInput
+            placeholder="Email"
+            defaultValue={Email}
+            onChangeText={(newText) => setEmail(newText)}
+          />
+          <AppTextInput
+            placeholder="Password"
+            defaultValue={Password}
+            onChangeText={(newPassword) => setPassword(newPassword)}
+            secureTextEntry
+          />
         </View>
 
         <View>
@@ -131,9 +166,10 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
         </View>
 
         <TouchableOpacity
+          onPress={handleLoginDirect}
           style={{
             padding: Spacing * 2,
-            backgroundColor: Colors.primary,
+            backgroundColor: Colors.Primary,
             marginVertical: Spacing * 3,
             borderRadius: Spacing,
             shadowColor: Colors.primary,
