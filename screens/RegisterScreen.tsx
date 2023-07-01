@@ -96,6 +96,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
       }
     } else {
       setUserInfo(user);
+      navigate("Home");
       console.log("loaded locally");
     }
   }
