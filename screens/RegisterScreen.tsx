@@ -25,7 +25,7 @@ import axios from "axios";
 import { Alert } from "react-native";
 
 WebBrowser.maybeCompleteAuthSession();
-const API_URL = "http://192.168.1.87:19000";
+const API_URL = "https://farmappbackend.onrender.com";
 type Props = NativeStackScreenProps<RootStackParamList, "Register">;
 
 const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {

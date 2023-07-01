@@ -26,7 +26,7 @@ import { getTranslation,translation } from "../constants/translations/utils"
 WebBrowser.maybeCompleteAuthSession();
 
 type Props = NativeStackScreenProps<RootStackParamList, "Login">;
-const API_URL = "http://192.168.1.87:19000";
+const API_URL = "http://localhost:4000";
 const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
   const { selectedLang, setSelectedLang } = useContext(LangContext);
   const [Email, setEmail] = useState("");
