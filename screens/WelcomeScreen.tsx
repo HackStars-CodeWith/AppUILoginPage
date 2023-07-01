@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import LangContext from "../components/LangContext";
 import {
   Dimensions,
   ImageBackground,
@@ -18,14 +20,14 @@ import Colors from "../constants/Colors";
 import Font from "../constants/Font";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
-import { translation } from "../constants/translations/utils";
+import {  translation, getTranslation } from "../constants/translations/utils";
 const { height } = Dimensions.get("window");
 
 type Props = NativeStackScreenProps<RootStackParamList, "Welcome">;
 
 const WelcomeScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
   const [langModalVisible, setLangModalVisible] = useState(false);
-  const [selectedLang, setSelectedLang] = useState<number>(0);
+  const { selectedLang, setSelectedLang } = useContext(LangContext);
   const saveSelectedLang = async (index: number): Promise<void> => {
     try {
       await AsyncStorage.setItem("LANG", index.toString());
@@ -56,33 +58,14 @@ const WelcomeScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
         >
           <Text
             style={{
-              fontSize: FontSize.xxLarge,
+              fontSize: FontSize.xLarge,
               color: Colors.Safron,
               fontFamily: Font["poppins-bold"],
               textAlign: "center",
             }}
           >
-            {selectedLang == 0
-              ? translation[0].English
-              : selectedLang == 1
-              ? translation[0].Bangla
-              : selectedLang == 2
-              ? translation[0].Hindi
-              : null}
+            {getTranslation('title',selectedLang)}
           </Text>
-
-          {/* <Text
-            style={{
-              fontSize: FontSize.small,
-              color: Colors.text,
-              fontFamily: Font["poppins-regular"],
-              textAlign: "center",
-              marginTop: Spacing * 2,
-            }}
-          >
-            Explore all the existing job roles based or your interest and study
-            major
-          </Text> */}
         </View>
         <View
           style={{
@@ -116,13 +99,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
                 textAlign: "center",
               }}
             >
-              {selectedLang == 0
-                ? translation[1].English
-                : selectedLang == 1
-                ? translation[1].Bangla
-                : selectedLang == 2
-                ? translation[1].Hindi
-                : null}
+              {getTranslation('login',selectedLang)}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -143,13 +120,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
                 textAlign: "center",
               }}
             >
-              {selectedLang == 0
-                ? translation[2].English
-                : selectedLang == 1
-                ? translation[2].Bangla
-                : selectedLang == 2
-                ? translation[2].Hindi
-                : null}
+              {getTranslation('register',selectedLang)}
             </Text>
           </TouchableOpacity>
         </View>
@@ -164,13 +135,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
             style={styles.img}
           />
           <Text>
-            {selectedLang == 0
-              ? translation[3].English
-              : selectedLang == 1
-              ? translation[3].Bangla
-              : selectedLang == 2
-              ? translation[3].Hindi
-              : null}
+            {getTranslation('selectLanguage',selectedLang)}
           </Text>
         </TouchableOpacity>
         <LanguageModel

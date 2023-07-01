@@ -1,9 +1,10 @@
-import { View, Text, Dimensions } from "react-native";
+import { View, Text, Dimensions, Button } from "react-native";
 // import React from "react";
 import Spacing from "../constants/Spacing";
 import FontSize from "../constants/FontSize";
 import Colors from "../constants/Colors";
 import Font from "../constants/Font";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import BackgroundAnimation from "./BackgroundAnimation";
 const { height } = Dimensions.get("window");
 export default function HomeScreen() {
@@ -30,6 +31,10 @@ export default function HomeScreen() {
           }}
         >
          Hello Welcome userName
+         <Button
+        title="Logout"
+        onPress={async () => await AsyncStorage.removeItem("@user")}
+      />
         </Text>
     
     </View>
