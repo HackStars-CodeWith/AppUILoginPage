@@ -29,9 +29,9 @@ const AppTextInput: React.FC<TextInputProps> = ({ ...otherProps }) => {
         },
         focused && {
           borderWidth: 3,
-          borderColor: Colors.primary,
+          borderColor: Colors.JHGreen,
           shadowOffset: { width: 4, height: Spacing },
-          shadowColor: Colors.primary,
+          shadowColor: Colors.JHGreen,
           shadowOpacity: 0.2,
           shadowRadius: Spacing,
         },

@@ -47,6 +47,7 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
     } else {
       setUserInfo(user);
       console.log("loaded locally");
+     
     }
   }
 
@@ -69,6 +70,7 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
       const user = await response.json();
       await AsyncStorage.setItem("@user", JSON.stringify(user));
       setUserInfo(user);
+      navigate("Welcome");
     } catch (error) {
       console.log("Error found")
     }
@@ -180,7 +182,7 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
           <Text
             style={{
               fontFamily: Font["poppins-semiBold"],
-              color: Colors.primary,
+              color: Colors.Primary,
               textAlign: "center",
               fontSize: FontSize.small,
             }}

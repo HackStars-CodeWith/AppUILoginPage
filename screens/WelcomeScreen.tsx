@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
   Image,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LanguageModel from "../components/LanguageModel";
@@ -57,7 +57,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
           <Text
             style={{
               fontSize: FontSize.xxLarge,
-              color: Colors.primary,
+              color: Colors.Safron,
               fontFamily: Font["poppins-bold"],
               textAlign: "center",
             }}
@@ -94,7 +94,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
           <TouchableOpacity
             onPress={() => navigate("Login")}
             style={{
-              backgroundColor: Colors.primary,
+              backgroundColor: Colors.Primary,
               paddingVertical: Spacing * 1.5,
               paddingHorizontal: Spacing * 2,
               width: "48%",
@@ -132,6 +132,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               paddingHorizontal: Spacing * 2,
               width: "48%",
               borderRadius: Spacing,
+             
             }}
           >
             <Text
@@ -157,9 +158,12 @@ const WelcomeScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
           onPress={() => {
             setLangModalVisible(!langModalVisible);
           }}
-        ><Image source={require("../assets/icons/languages.png")} style={styles.img}/>
+        >
+          <Image
+            source={require("../assets/icons/languages.png")}
+            style={styles.img}
+          />
           <Text>
-          
             {selectedLang == 0
               ? translation[3].English
               : selectedLang == 1
@@ -183,7 +187,7 @@ export default WelcomeScreen;
 
 const styles = StyleSheet.create({
   selectLangaugeBtn: {
-    flexDirection: 'row',
+    flexDirection: "row",
     width: "50%",
     height: 50,
     borderWidth: 0.2,
@@ -193,12 +197,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
+    color: Colors.Primary,
+    borderColor:Colors.YellowMedium,
   },
-  img:{
+  img: {
     padding: 10,
     margin: 5,
     height: 25,
     width: 25,
-    resizeMode: 'stretch',
-  }
+    resizeMode: "stretch",
+  },
 });

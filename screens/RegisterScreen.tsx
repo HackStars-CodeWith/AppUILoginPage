@@ -18,19 +18,50 @@ import AppTextInput from "../components/AppTextInput";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 WebBrowser.maybeCompleteAuthSession();
-
+const API_URL = "http://192.168.43.163:4000";
 type Props = NativeStackScreenProps<RootStackParamList, "Register">;
 
 const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
-  const [userInfo, setUserInfo] = React.useState(null); 
+  const [userInfo, setUserInfo] = React.useState(null);
   const [token, setToken] = useState("");
   const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId:"266923605492-uet71us6ugp7vpf3ejc80jmf6af07rom.apps.googleusercontent.com",
-    webClientId:"266923605492-r5ddnpke4h9msb59jh9oh5adikv4m61s.apps.googleusercontent.com",
-    expoClientId:"266923605492-afdsv528mjbp5g9sf1s52viao09dqq7f.apps.googleusercontent.com",
+    androidClientId:
+      "266923605492-uet71us6ugp7vpf3ejc80jmf6af07rom.apps.googleusercontent.com",
+    webClientId:
+      "266923605492-r5ddnpke4h9msb59jh9oh5adikv4m61s.apps.googleusercontent.com",
+    expoClientId:
+      "266923605492-afdsv528mjbp5g9sf1s52viao09dqq7f.apps.googleusercontent.com",
   });
+  //function to login directly
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+  const [ConfirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const HandleRegister = async () => {
+    if (Password === "" || ConfirmPassword === "" || Email === "") {
+      return;
+    }
+    if (Password !== ConfirmPassword) {
+      setPasswordError("Passwords do not match");
+      return;
+    }
+    const credentials = {
+      email: Email,
+      password: Password,
+    };
+
+    try {
+      const response = await axios.post(`${API_URL}/signup`, credentials);
+      const { data } = response;
+      navigate("Login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     handleEffect();
@@ -70,7 +101,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
       await AsyncStorage.setItem("@user", JSON.stringify(user));
       setUserInfo(user);
     } catch (error) {
-      console.log("Error found")
+      console.log("Error found");
     }
   };
   return (
@@ -119,7 +150,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
         <TouchableOpacity
           style={{
             padding: Spacing * 2,
-            backgroundColor: Colors.primary,
+            backgroundColor: Colors.Primary,
             marginVertical: Spacing * 3,
             borderRadius: Spacing,
             shadowColor: Colors.primary,
@@ -168,7 +199,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
           <Text
             style={{
               fontFamily: Font["poppins-semiBold"],
-              color: Colors.primary,
+              color: Colors.Primary,
               textAlign: "center",
               fontSize: FontSize.small,
             }}

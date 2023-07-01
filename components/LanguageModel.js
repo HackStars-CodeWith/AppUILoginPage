@@ -10,6 +10,8 @@ import {
   Image,
 } from 'react-native';
 import React, {useState} from 'react';
+import Colors from '../constants/Colors';
+import FontSize from '../constants/FontSize';
 const {height, width} = Dimensions.get('window');
 const LanguageModal = ({
   langModalVisible,
@@ -69,7 +71,7 @@ const LanguageModal = ({
                     {item.selected == true ? (
                       <Image
                         source={require('../assets/icons/selected_radio.png')}
-                        style={[styles.icon, {tintColor: '#7dd87d'}]}
+                        style={[styles.icon, {tintColor: Colors.JHGreen}]}
                       />
                     ) : (
                       <Image
@@ -97,7 +99,7 @@ const LanguageModal = ({
               onPress={() => {
                 setLangModalVisible(false);
               }}>
-              <Text>Cancel</Text>
+              <Text style={{color: '#fff',textDecorationColor:FontSize.small}}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btn2}
@@ -105,7 +107,7 @@ const LanguageModal = ({
                 setLangModalVisible(false);
                 onSelectLang(selectedLang);
               }}>
-              <Text style={{color: '#fff'}}>Apply</Text>
+              <Text style={{color: '#fff',textDecorationColor:FontSize.small}}>Apply</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -166,6 +168,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
     marginBottom: 20,
+    
   },
   btn1: {
     width: '40%',
@@ -174,15 +177,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'#f1b963'
+    backgroundColor:'#ef233c',
+    textDecorationColor:'#fff'
+  
+    
   },
   btn2: {
     width: '40%',
     height: 50,
     borderWidth: 0.5,
     borderRadius: 10,
-    backgroundColor: '#7dd87d',
+    backgroundColor: Colors.JHGreen,
     justifyContent: 'center',
     alignItems: 'center',
+    textDecorationColor:'#fff'
   },
 });

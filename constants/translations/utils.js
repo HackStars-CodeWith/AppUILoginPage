@@ -10,7 +10,7 @@ export const translation=[
         Bangla:"প্রবেশ করুন",
     },
     {
-        English:"Login",
+        English:"Register",
         Hindi:"पंजीकृत करे",
         Bangla:"নিবন্ধন",
     },
