@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ActivityIndicator
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Spacing from "../constants/Spacing";
@@ -30,6 +31,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "Register">;
 
 const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
   const { selectedLang, setSelectedLang } = useContext(LangContext);
+  const [loading,setLoading]=useState(false);
   const [userInfo, setUserInfo] = React.useState(null);
   const [token, setToken] = useState("");
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -60,6 +62,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
     };
 
     try {
+      setLoading(true);
       const response = await axios.post(`${API_URL}/signup`, credentials);
       const { data } = response;
       setTimeout(() => {
@@ -82,6 +85,8 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
         console.log("Error", error.message);
       }
       console.log(error.config);
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -208,7 +213,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               fontSize: FontSize.large,
             }}
           >
-            {getTranslation('register',selectedLang)}
+            {loading==true?<ActivityIndicator/>:getTranslation('register',selectedLang)}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Spacing from "../constants/Spacing";
@@ -28,6 +29,7 @@ WebBrowser.maybeCompleteAuthSession();
 type Props = NativeStackScreenProps<RootStackParamList, "Login">;
 const API_URL = "https://farmappbackend.onrender.com";
 const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
+  const[loading,setLoading]=useState(false);
   const { selectedLang, setSelectedLang } = useContext(LangContext);
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -96,6 +98,7 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
       password: Password,
     };
     try {
+      setLoading(true)
       const response = await axios.post(`${API_URL}/login`, credintals);
       const { data } = response;
       setTimeout(() => {
@@ -104,6 +107,8 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
       navigate("Home");
     } catch (error) {
       console.log(error);
+    }finally {
+      setLoading(false); // Set loading to false after the API request is completed
     }
   };
   return (
@@ -194,7 +199,7 @@ const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               fontSize: FontSize.large,
             }}
           >
-            {getTranslation('login',selectedLang)}
+            {loading==true?<ActivityIndicator/>:getTranslation('login',selectedLang)}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity

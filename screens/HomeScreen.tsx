@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, Button, Alert } from "react-native";
+import { View, Text, Dimensions, Button, Alert, ActivityIndicator, TouchableOpacity, StyleSheet } from "react-native";
 // import React from "react";
 import Spacing from "../constants/Spacing";
 import FontSize from "../constants/FontSize";
@@ -14,7 +14,7 @@ const API_URL = "https://farmappbackend.onrender.com";
 import Weather from "./Weather";
 
 export default function HomeScreen() {
-
+  const[loading,setLoading]=useState(false)
   const [redirect, setRedirect] = useState(false);
   const navigation = useNavigation();
 
@@ -26,6 +26,7 @@ export default function HomeScreen() {
   
   const handleLogout = async () => {
     try {
+      setLoading(true)
       await AsyncStorage.removeItem("@user");
       const response = await axios.post(API_URL + "/logout");
       setTimeout(() => {
@@ -35,6 +36,8 @@ export default function HomeScreen() {
       console.log(response.data);
     } catch (error) {
       console.log(error);
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -63,12 +66,20 @@ export default function HomeScreen() {
         Hello Welcome userName
         
       </Text>
-      <Button
-          title="Logout"
-          // onPress={async () => await AsyncStorage.removeItem("@user")}
-          onPress={handleLogout}
-        />
+      <TouchableOpacity
+        onPress={handleLogout}
+        className="mx-12 border-2 border-indigo-600 rounded-full"
+      >
+        <Text className="text-center text-lg font-medium text-indigo-600">{loading == true ? <ActivityIndicator  className="flex justify-center"/> : "Logout"}</Text>
+      </TouchableOpacity>
       
     </View>
   );
 }
+const styles=StyleSheet.create({
+  btnStyle: {
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center'
+  }
+})
